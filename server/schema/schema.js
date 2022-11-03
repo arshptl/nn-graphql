@@ -39,14 +39,19 @@ const AuthorType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
+    
   }),
 });
 
-// Root Queries, to get into the graphQL(graph) initially to grab data
+// *Root Queries*, to get into the graphQL(graph) initially to grab data
 // how initially we jump into the graph
+// The main central hub(network)
+
+// Basically it has different types of queries
 const RootQuery = new GraphQLObjectType({
   name: "RootQueryType",
   fields: {
+    // Query-1
     // Query name
     book: {
       // data of the query
@@ -61,6 +66,8 @@ const RootQuery = new GraphQLObjectType({
         return find(books, { id: args.id });
       },
     },
+
+    // Query-2
     author: {
       type: AuthorType,
       args: {
