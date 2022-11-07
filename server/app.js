@@ -1,8 +1,19 @@
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./schema/schema");
+// const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const app = express();
+
+// Connect with the database
+mongoose.connect(
+  "mongodb+srv://harshptl14:h4rshptl14@cluster0.sghsssx.mongodb.net/?retryWrites=true&w=majority"
+);
+
+mongoose.connection.once("open", () => {
+  console.log('connected with the database');
+})
 
 //graphqlHTTP is a middleware that has been passed into express app
 app.use(
