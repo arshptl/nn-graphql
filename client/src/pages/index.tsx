@@ -1,6 +1,7 @@
 import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 import BookList from '../components/BookList'
+import AddBook from '../components/AddBook';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 
@@ -16,6 +17,7 @@ const Home: NextPage = () => {
       <div className={styles.container}>
         <h1>{"Arsh's reading list"}</h1>
         <BookList />
+        <AddBook/>
       </div>
     </ApolloProvider>
   )
