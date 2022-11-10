@@ -1,14 +1,6 @@
 import { NextPage } from "next"
-import { useQuery, gql } from '@apollo/client';
-
-const GET_BOOKS = gql`
-{
-    books{
-        id
-        name
-    }
-}
-`;
+import { useQuery } from '@apollo/client';
+import { GET_BOOKS } from "../queries/queries";
 
 type BookType = {
     name: any,

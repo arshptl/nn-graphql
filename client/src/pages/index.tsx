@@ -17,7 +17,7 @@ const Home: NextPage = () => {
       <div className={styles.container}>
         <h1>{"Arsh's reading list"}</h1>
         <BookList />
-        <AddBook/>
+        <AddBook />
       </div>
     </ApolloProvider>
   )
