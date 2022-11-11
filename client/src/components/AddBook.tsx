@@ -1,6 +1,5 @@
-import { NextPage } from 'next';
 import { useQuery, useMutation } from '@apollo/client'
-import { GET_AUTHORS, ADD_BOOK } from '../queries/queries';
+import { GET_AUTHORS, ADD_BOOK, GET_BOOKS } from '../queries/queries';
 import { useReducer, useRef } from 'react';
 
 type AuthorType = {
@@ -8,9 +7,9 @@ type AuthorType = {
     id: string,
 }
 
-const AddBook: NextPage = () => {
+const AddBook = () => {
     const { loading, error, data } = useQuery(GET_AUTHORS);
-    const [addBook, { mutatedata, mutateloading, mutateerror }]: any = useMutation(ADD_BOOK);
+    const [addBook, { mutatedata, mutateloading, mutateerror }]: any = useMutation(ADD_BOOK,{});
 
     const inputGenreRef = useRef() as React.MutableRefObject<HTMLInputElement>;
     const inputAuthorIdRef = useRef() as React.MutableRefObject<HTMLSelectElement>;
@@ -41,30 +40,33 @@ const AddBook: NextPage = () => {
         }
     }
 
-    function handleSubmit(e: any) {
+    async function handleSubmit(e: any) {
         e.preventDefault();
         dispatch({
             type: 'add',
             name: inputNameRef.current.value,
             genre: inputGenreRef.current.value,
             authorId: inputAuthorIdRef.current.value
-        });
-        inputNameRef.current.value = '';
-        inputGenreRef.current.value = '';
-        inputAuthorIdRef.current.value = '';
-        addBook({
+        })
+
+        await addBook({
             variables: {
                 name: inputNameRef.current.value,
                 genre: inputGenreRef.current.value,
                 authorId: inputAuthorIdRef.current.value
-            }
+            },
+            refetchQueries: [{ query: GET_BOOKS}] 
         });
+        inputNameRef.current.value = '';
+        inputGenreRef.current.value = '';
+        inputAuthorIdRef.current.value = '';
     }
 
 
     if (loading || mutateloading) return <p>Loading...</p>;
     if (error || mutateerror) return <p>Error :(</p>;
-    console.log(bookData);
+
+    console.log(bookData.name);
     return (
         <form id="add-book" onSubmit={handleSubmit}>
             <div className="field">
