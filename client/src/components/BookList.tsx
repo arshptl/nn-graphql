@@ -4,8 +4,9 @@ import BookDetails from "./BookDetails";
 import { useState } from "react";
 
 type BookType = {
-    name: any,
+    name: string,
     id: string,
+    genre: string,
 }
 
 const BookList = () => {

@@ -1,15 +1,21 @@
 import { useQuery, useMutation } from '@apollo/client'
 import { GET_AUTHORS, ADD_BOOK, GET_BOOKS } from '../queries/queries';
-import { useReducer, useRef } from 'react';
+import React, { useReducer, useRef } from 'react';
 
 type AuthorType = {
-    name: any,
+    name: string,
     id: string,
+}
+
+interface BookType {
+    name: string,
+    genre: string,
+    authorId: string,
 }
 
 const AddBook = () => {
     const { loading, error, data } = useQuery(GET_AUTHORS);
-    const [addBook, { mutatedata, mutateloading, mutateerror }]: any = useMutation(ADD_BOOK,{});
+    const [addBook] = useMutation(ADD_BOOK, {});
 
     const inputGenreRef = useRef() as React.MutableRefObject<HTMLInputElement>;
     const inputAuthorIdRef = useRef() as React.MutableRefObject<HTMLSelectElement>;
@@ -40,7 +46,7 @@ const AddBook = () => {
         }
     }
 
-    async function handleSubmit(e: any) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         dispatch({
             type: 'add',
@@ -55,7 +61,7 @@ const AddBook = () => {
                 genre: inputGenreRef.current.value,
                 authorId: inputAuthorIdRef.current.value
             },
-            refetchQueries: [{ query: GET_BOOKS}] 
+            refetchQueries: [{ query: GET_BOOKS }]
         });
         inputNameRef.current.value = '';
         inputGenreRef.current.value = '';
@@ -63,8 +69,8 @@ const AddBook = () => {
     }
 
 
-    if (loading || mutateloading) return <p>Loading...</p>;
-    if (error || mutateerror) return <p>Error :(</p>;
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
 
     console.log(bookData.name);
     return (

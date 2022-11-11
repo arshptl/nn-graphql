@@ -5,6 +5,30 @@ interface props{
     bookId: string,
 }
 
+interface SingleBook {
+    id: any,
+    name: string,
+    genre: string,
+    author: {
+        id: any,
+        name: string,
+        age: number,
+        books: {
+            id: any,
+            name: string,
+            genre: string,
+        }[]
+    }
+}
+
+interface AuthorBooks {
+    id: any,
+    name: string,
+    genre: string,
+}
+
+
+
 const BookDetails = ({ bookId }: props) => {
     const { loading, error, data } = useQuery(GET_BOOK,
         {
@@ -14,7 +38,7 @@ const BookDetails = ({ bookId }: props) => {
         }
     );
 
-    const displayBookDetails = (book: any) => {
+    const displayBookDetails = (book: SingleBook) => {
         if (book !== undefined) {
             return <div>
                 <h2>{book.name}</h2>
@@ -23,7 +47,7 @@ const BookDetails = ({ bookId }: props) => {
                 <p>All books by this author</p>
                 <ul className="other-books">
                     {
-                        book.author.books.map((item: any) => {
+                        book.author.books.map((item: AuthorBooks) => {
                             return <li key={item.id}>
                                 {item.name}
                             </li>
